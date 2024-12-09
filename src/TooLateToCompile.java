@@ -4,16 +4,19 @@ import extensions.File;
 class TooLateToCompile extends Program {
 
 //======================================================================================
-//===================================== VARIABLES GLOBALES =====================================  
 
-    final CSVFile ALMEIDADODO = loadCSV("dialogues/AlmeidaDodo.csv",';');
-    final CSVFile CORLEDODO = loadCSV("dialogues/Corle.csv",';');
+
+    final CSVFile CORLE = loadCSV("dialogues/Corle.csv",';');
     final CSVFile CONTROLEUR = loadCSV("dialogues/Controleur.csv",';');
     final CSVFile MARSHALLNORMAND = loadCSV("dialogues/MarshallNormand.csv",';');
     final CSVFile SEC = loadCSV("dialogues/Sec.csv",';');
     final CSVFile MENU = loadCSV("menu.csv",';');
     final CSVFile OUTRO = loadCSV("outro.csv",';');
+    final CSVFile QPROGRAMMATION = loadCSV("programmation.csv",';');
+    final CSVFile QMATHS = loadCSV("maths.csv",';');
+    final CSVFile QWEB = loadCSV("web.csv",';');
     final File TITRE = newFile("titre.txt");
+
     
 //======================================================================================
 //===================================== MAIN =====================================  
@@ -35,10 +38,35 @@ class TooLateToCompile extends Program {
                 afficherCasesMenu(selection,langue);
                 
             }
-            if(equals(etape,"jeu")){
+            if(equals(etape,"Controleur")){
                 
             }
-        //lancerOutro(langue);
+
+            if(equals(etape,"Corle")){
+                
+            }
+
+            if(equals(etape,"Sec")){
+                
+            }
+
+            if(equals(etape,"MarshallNormand")){
+                
+            }
+
+            if(equals(etape,"Pause")){
+                
+            }
+
+            if(equals(etape,"Combat")){
+                
+            }
+
+            if(equals(etape,"Fin")){
+               lancerOutro(langue); 
+            }
+
+    
     }
 
 

@@ -3,5 +3,6 @@ class Ennemi extends Program {
     int affinite;
     int idxDialogue;
     CSVFile dialogue;
+    CSVFILE questions;
     File sprite;
 }
