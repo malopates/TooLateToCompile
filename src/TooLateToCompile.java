@@ -6,9 +6,13 @@ class TooLateToCompile extends Program {
 //======================================================================================
 //===================================== VARIABLES GLOBALES =====================================  
 
-    final CSVFile DIALOGUES = loadCSV("dialogues.csv",';');
-    final CSVFile CSVMENU = loadCSV("menu.csv",';');
-    final CSVFile CSVOUTRO = loadCSV("outro.csv",';');
+    final CSVFile ALMEIDADODO = loadCSV("dialogues/AlmeidaDodo.csv",';');
+    final CSVFile CORLEDODO = loadCSV("dialogues/Corle.csv",';');
+    final CSVFile CONTROLEUR = loadCSV("dialogues/Controleur.csv",';');
+    final CSVFile MARSHALLNORMAND = loadCSV("dialogues/MarshallNormand.csv",';');
+    final CSVFile SEC = loadCSV("dialogues/Sec.csv",';');
+    final CSVFile MENU = loadCSV("menu.csv",';');
+    final CSVFile OUTRO = loadCSV("outro.csv",';');
     final File TITRE = newFile("titre.txt");
     
 //======================================================================================
@@ -68,22 +72,20 @@ class TooLateToCompile extends Program {
 
     void lancerOutro(int langue){
         int idxLigne = 0;
-        
-        println("\n \n");
         hide();
-        texte = getCell(CSVOUTRO,idxLigne,langue);
+        texte = getCell(OUTRO,idxLigne,langue);
         cursor(25,0);
         anim(texte,50);
         idxLigne++;
-        effacerAnim(getCell(CSVOUTRO,idxLigne,langue),150);
+        effacerAnim(getCell(OUTRO,idxLigne,langue),150);
         idxLigne++;
-        texte = getCell(CSVOUTRO,idxLigne,langue);
+        texte = getCell(OUTRO,idxLigne,langue);
         anim(texte,50);
         delay(1000);
         idxLigne++;
-        effacerAnim(getCell(CSVOUTRO,idxLigne,langue),20);
+        effacerAnim(getCell(OUTRO,idxLigne,langue),20);
         //idxLigne++;
-        texte = getCell(CSVOUTRO,idxLigne,langue);
+        texte = getCell(OUTRO,idxLigne,langue);
         anim(texte,30);
         delay(1000);
         effacerAnim(texte,20);
@@ -124,30 +126,22 @@ class TooLateToCompile extends Program {
 
     void afficherCasesMenu(int seletion,int langue ){
         String barre = barre(langue);
-    for(int i =0;i<(rowCount(CSVMENU)-1);i++){
-            if(i==selection){ //si élément est sélectionné, affichage différent
+    for(int i =0;i<(rowCount(MENU)-1);i++){
+            //si élément est sélectionné, affichage différent
                     println(ANSI_RED+"╓"+barreString+"╖");
-                    anim(" " + ANSI_WHITE + espace(getCell(CSVMENU,i,langue),12) + ANSI_RED + " \n",2);
+                    anim(" " + ANSI_WHITE + espace(getCell(MENU,i,langue),12) + ANSI_RED + " \n",2);
                     println(ANSI_RED+"╙"+barreString+"╜" + ANSI_WHITE);
-                }
-                else{ //sinon affichage régulier
-                    print(ANSI_BLUE);  
-                    println("╓"+barreString+"╖");
-                    anim(" " + ANSI_WHITE + espace(getCell(CSVMENU,i,langue),12) + ANSI_BLUE + " \n",10);
-                    println("╙"+barreString+"╜"+ANSI_WHITE);
-                    }
-           
         }
-       println(getCell(CSVMENU,rowCount(CSVMENU)-1,langue));
+       println(getCell(MENU,rowCount(MENU)-1,langue));
         
     }
 
     //trouve le nombre de caractère du contenu le plus grand du CSV, dans la langue choisie
     int plusGrandCSV(int langue){
         int nbPlusGrand =0;
-        for(int i=0;i<rowCount(CSVMENU);i++){
-            if(length(getCell(CSVMENU,i,langue))>nbPlusGrand){
-                nbPlusGrand=length(getCell(CSVMENU,i,langue));
+        for(int i=0;i<rowCount(MENU);i++){
+            if(length(getCell(MENU,i,langue))>nbPlusGrand){
+                nbPlusGrand=length(getCell(MENU,i,langue));
             }
         }
         return nbPlusGrand;
