@@ -22,9 +22,8 @@ class TooLateToCompile extends Program {
     
 //======================================================================================
 //===================================== MAIN =====================================  
-   String etape = ""; //initialement des booleans "début" "jeu" "fin" mais au final String qui influent 
-   //sur le main semble plus clair et moins compliqué
-    boolean skipIntro = true; //pour que je puisse tester rapidement
+   String etape = ""; //plus rapide pour debug
+    boolean skipIntro = true; //plus rapide pour debug
 
 
     void algorithm(){
@@ -33,8 +32,8 @@ class TooLateToCompile extends Program {
                 lancerIntro();
                 
             }
-            etape = "menu";
-            interfaceCombat(controleur);
+            etape = "Fin";
+            //interfaceCombat(controleur);
             if(equals(etape,"menu")){ //pour le menu, choix de langue, +1 quand changement langue, modulo 3
                 for(int i=0;i<12;i++)
                 println(readLine(TITRE));
@@ -102,7 +101,7 @@ class TooLateToCompile extends Program {
     }
 
     void lancerOutro(int langue){
-        int idxLigne = 0;
+        int idxLigne = 0; //j'aurais pu le loop mais le pace est important 
         hide();
         texte = getCell(OUTRO,idxLigne,langue);
         cursor(25,0);
