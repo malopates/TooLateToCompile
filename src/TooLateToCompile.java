@@ -17,6 +17,7 @@ class TooLateToCompile extends Program {
     final CSVFile QWEB = loadCSV("../ressources/questions/web.csv",';');
     final File TITRE = newFile("../ressources/titre.txt");
     final File SCONTROLEUR = newFile("../ressources/sprites/controleur.txt");
+    final File SCARLE = newFile("../ressources/sprites/controleur.txt");
     final CSVFile DESCRIPTIONS = loadCSV("../ressources/textes/description.csv",';');
 
     
@@ -250,7 +251,6 @@ class TooLateToCompile extends Program {
 
     Ennemi newEnnemi(String nom,int tauxJauge,int idxDialogue,String nomJauge,CSVFile dialogue,CSVFile questions,File sprite,int longueurSprite,String description){
         Ennemi en = new Ennemi();
-
         en.nom = nom;
         en.tauxJauge = tauxJauge;
         en.idxDialogue = idxDialogue;
@@ -264,7 +264,7 @@ class TooLateToCompile extends Program {
     }
     
     Ennemi controleur = newEnnemi("Contrôleur", 0, 0,"Amende", CONTROLEUR, QPROGRAMMATION, SCONTROLEUR,25,getCell(DESCRIPTIONS,0,langue));
-    Ennemi corle = newEnnemi("M.Corle", 0, 0,"Hémmoragie", CORLE, QWEB, SCARLE,22,getCell(DESCRIPTIONS,1,langue));
+    Ennemi corle = newEnnemi("M.Corle", 0, 0,"Hémmoragie", CORLE, QWEB,SCARLE,22,getCell(DESCRIPTIONS,0,langue));
     
 
     void changeQuestion(Ennemi ennemi){
