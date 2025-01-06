@@ -322,7 +322,7 @@ String gestionDialogue(Ennemi ennemi, int idxDialogue){
 void introEnnemi(Ennemi ennemi){
     clearScreen();
     for(int i = 1; i<4;i++){
-      anim(gestionDialogue(ennemi,0),60);  
+      anim(gestionDialogue(ennemi,0),90);  
       println();
     }    
 }
