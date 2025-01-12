@@ -4,37 +4,54 @@ import extensions.File;
 class TooLateToCompile extends Program {
 
 //======================================================================================
-    final CSVFile NARRATEUR = loadCSV("../ressources/dialogues/narrateur.csv",';');
-    final CSVFile ALMEIDADODO = loadCSV("../ressources/dialogues/Corle.csv",';');
-    final CSVFile CORLE = loadCSV("../ressources/dialogues/Corle.csv",';');
-    final CSVFile CONTROLEUR = loadCSV("../ressources/dialogues/Controleur.csv",';');
-    final CSVFile MARSHALLNORMAND = loadCSV("../ressources/dialogues/MarshallNormand.csv",';');
-    final CSVFile SEC = loadCSV("../ressources/dialogues/Sec.csv",';');
-    final CSVFile MENU = loadCSV("../ressources/textes/menu.csv",';');
-    final CSVFile OUTRO = loadCSV("../ressources/textes/outro.csv",';');
-    final CSVFile QPROGRAMMATION = loadCSV("../ressources/questions/programmation.csv",';');
-    final CSVFile QMATHS = loadCSV("../ressources/questions/maths.csv",';');
-    final CSVFile QWEB = loadCSV("../ressources/questions/web.csv",';');
-    final File TITRE = newFile("../ressources/titre.txt");
-    final File SCONTROLEUR = newFile("../ressources/sprites/controleur.txt");
-    final File SCARLE = newFile("../ressources/sprites/controleur.txt");
-    final CSVFile DESCRIPTIONS = loadCSV("../ressources/textes/description.csv",';');
+    final CSVFile NARRATEUR = loadCSV("ressources/dialogues/narrateur.csv",';');
+    final CSVFile ALMEIDADODO = loadCSV("ressources/dialogues/Corle.csv",';');
+    final CSVFile CORLE = loadCSV("ressources/dialogues/Corle.csv",';');
+    final CSVFile CONTROLEUR = loadCSV("ressources/dialogues/Controleur.csv",';');
+    final CSVFile MARSHALLNORMAND = loadCSV("ressources/dialogues/MarshallNormand.csv",';');
+    final CSVFile SEC = loadCSV("ressources/dialogues/Sec.csv",';');
+    final CSVFile MENU = loadCSV("ressources/textes/menu.csv",';');
+    final CSVFile OUTRO = loadCSV("ressources/textes/outro.csv",';');
+    final CSVFile QPROGRAMMATION = loadCSV("ressources/questions/programmation.csv",';');
+    final CSVFile QMATHS = loadCSV("ressources/questions/maths.csv",';');
+    final CSVFile QWEB = loadCSV("ressources/questions/web.csv",';');
+    final File TITRE = newFile("ressources/titre.txt");
+    final File SCONTROLEUR = newFile("ressources/sprites/controleur.txt");
+    final File SCARLE = newFile("ressources/sprites/controleur.txt");
+    final CSVFile DESCRIPTIONS = loadCSV("ressources/textes/description.csv",';');
+    CSVFile save = loadCSV("ressources/save.csv",';');
+    Joueuse player = newJoueuse("pardéfo",0,"menu");
 
-    
+//============================== INITIALISATION JOUEUSE ==============================
+        Joueuse newJoueuse(String nom,int IndiceSave,String etape){
+        Joueuse j = new Joueuse();
+        j.nom = nom;
+        j.IndiceSave = IndiceSave;
+        j.etape = etape;
+        return j;
+    }
 //======================================================================================
 //===================================== MAIN =====================================  
-   String etape = ""; //initialement des booleans "début" "jeu" "fin" mais au final String qui influent
-    
-   //sur le main semble plus clair et moins compliqué
+   String etape = "outro"; //initialement des booleans "début" "jeu" "fin" mais au final String qui influent
+   //sur l'algorithm semble plus clair et moins compliqué
     boolean skipIntro = false; //pour que je puisse tester rapidement
 
 
     void algorithm(){
-            etape = "Controleur";
-
-            if(!skipIntro){
+        
+            anim(getCell(NARRATEUR,0,langue),60); //demander si on veut skip l'intro
+            String readS = readString();
+            if(equals(readS,"oui") || equals(readS,"yes") || equals(readS,"y") || equals(readS,"o") || equals(readS,"是")){
+                anim("Dommage ;P",60);
+                effacerAnim("Dommage ;P",60); 
+            }else{
                 lancerIntro();
+                
             }
+
+            anim(getCell(NARRATEUR,1,langue),60); //demander le nom de la joueuse
+            String nom = readString(); 
+            player.nom = nom;//
 
             etape = "menu";
 
@@ -91,7 +108,7 @@ class TooLateToCompile extends Program {
             }
 
             if(equals(etape,"Corle")){
-                
+
             }
 
             if(equals(etape,"Sec")){
@@ -195,7 +212,7 @@ class TooLateToCompile extends Program {
 //===================================== MENU ===================================== 
 
     int selection = 0; 
-    int langue = 1; //0 français, 1 anglais, 2 chinois
+    int langue = 0; //0 français, 1 anglais, 2 chinois
     int plusGrand = plusGrandCSV(langue);
     String barreString ="";
 
@@ -247,6 +264,7 @@ class TooLateToCompile extends Program {
 
 //=============================== GESTION COMBAT =================================
     int currentQuestion = 0;
+
 
 
     Ennemi newEnnemi(String nom,int tauxJauge,int idxDialogue,String nomJauge,CSVFile dialogue,CSVFile questions,File sprite,int longueurSprite,String description){
