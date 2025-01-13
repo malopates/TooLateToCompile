@@ -38,20 +38,31 @@ class TooLateToCompile extends Program {
 
 
     void algorithm(){
-        
-            anim(getCell(NARRATEUR,0,langue),60); //demander si on veut skip l'intro
+        etape = "controleur";
+            clearScreen();
+            for (int i = 0; i < 3; i++) {
+                anim(getCell(NARRATEUR,0,i),10);
+                println();
+            }
+             //demander si l'on veut skip l'intro
             String readS = readString();
             if(equals(readS,"oui") || equals(readS,"yes") || equals(readS,"y") || equals(readS,"o") || equals(readS,"是")){
-                anim("Dommage ;P",60);
-                effacerAnim("Dommage ;P",60); 
+                for (int i = 0; i < 3; i++) {
+                    anim(getCell(NARRATEUR,3,i),10);
+                    println();
+                }
+                skipIntro = true;
             }else{
                 lancerIntro();
-                
             }
-
-            anim(getCell(NARRATEUR,1,langue),60); //demander le nom de la joueuse
+            clearScreen();
+            for (int i = 0; i < 3; i++) {
+                anim(getCell(NARRATEUR,1,i),10);
+                println();
+            }
+             //demander le nom de la joueuse
             String nom = readString(); 
-            player.nom = nom;//
+            player.nom = nom;
 
             etape = "menu";
 
@@ -92,15 +103,12 @@ class TooLateToCompile extends Program {
                     }
             }
 
-            if(!skipIntro){
-               
-                }
+
             if(equals(etape,"Debut")){}
 
 
             etape = "Controleur";
             if(equals(etape,"Controleur")){
-                introEnnemi(controleur);
                 if(!skipIntro){
                     introEnnemi(controleur);
                 }
@@ -265,8 +273,6 @@ class TooLateToCompile extends Program {
 //=============================== GESTION COMBAT =================================
     int currentQuestion = 0;
 
-
-
     Ennemi newEnnemi(String nom,int tauxJauge,int idxDialogue,String nomJauge,CSVFile dialogue,CSVFile questions,File sprite,int longueurSprite,String description){
         Ennemi en = new Ennemi();
         en.nom = nom;
@@ -281,23 +287,34 @@ class TooLateToCompile extends Program {
         return en;
     }
     
+    //ENNEMIS
     Ennemi controleur = newEnnemi("Contrôleur", 0, 0,"Amende", CONTROLEUR, QPROGRAMMATION, SCONTROLEUR,25,getCell(DESCRIPTIONS,0,langue));
-    Ennemi corle = newEnnemi("M.Corle", 0, 0,"Hémmoragie", CORLE, QWEB,SCARLE,22,getCell(DESCRIPTIONS,0,langue));
-    
+    Ennemi corle = newEnnemi("M.Corle", 0, 0,"Hémmoragie", CORLE, QWEB,SCARLE,22,getCell(DESCRIPTIONS,1,langue));
+    Ennemi sec = newEnnemi("Sec", 0, 0,"Amour propre", SEC, QMATHS,SCARLE,22,getCell(DESCRIPTIONS,2,langue));
+    Ennemi marshallNormand = newEnnemi("Marshall--Normand", 0, 0,"Note", MARSHALLNORMAND, QPROGRAMMATION,SCARLE,22,getCell(DESCRIPTIONS,3,langue));
 
     void changeQuestion(Ennemi ennemi){
         currentQuestion = (int) (random()*rowCount(ennemi.questions)); 
     }
 
+    char remplirCasesJauge(Ennemi ennemi, int caseJauge){
+        if(ennemi.tauxJauge<caseJauge){
+            return '█';
+        }else{
+            return ' ';
+        }
+    }
+
     void interfaceCombat(Ennemi ennemi){
         cadreHautBas(ennemi);
         for(int i = 0;i<ennemi.longueurSprite;i++){
-            print("║|" + "    " + "|║");
+            print("║|" + ANSI_RED + remplirCasesJauge(ennemi,i) + ANSI_WHITE + "|║");
             print("║|" + readLine(SCONTROLEUR) + "|║");
-            //pas un switch parce que je veux que tout s'éxéctue (affichage en fonction de la ligne)
+            //pas un switch parce que je veux que tout s'execute (affichage en fonction de la ligne)
             if(i == 4){print("   " + ANSI_RED + ennemi.nom + ANSI_WHITE );} //mettre les éléments sur la droite sur l'affichage combat
-            if(i == 5){print("   " + ennemi.description);} 
-            if(i == 6){print("   " + "Remplissez la jauge d'" + ANSI_RED + ennemi.nomJauge + ANSI_WHITE + " à gauche pour gagner ");} 
+            if(i == 5){print("   " + substring(ennemi.description,0,length(ennemi.description)-48));} 
+            if(i == 6){print("   " + substring(ennemi.description,length(ennemi.description)-48,length(ennemi.description)));}
+            if(i == 14){print("   " + getCell(NARRATEUR,4,langue) + ANSI_RED + ennemi.nomJauge + ANSI_WHITE + " à gauche pour gagner ");} 
             if(i == 9){print("   " + getCell(ennemi.questions,currentQuestion,langue*6));}//moitié d'une question (pas la place autrement)
             if(i == 9){print("");}//autre moitié
             if(i == 11){print("   " + "1 - " + getCell(ennemi.questions,currentQuestion,(langue*6)+1) + "                          " + "2  -" + getCell(ennemi.questions,currentQuestion,(langue*6)+2)  );}
