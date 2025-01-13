@@ -1,5 +1,6 @@
 class Joueuse {
     String nom; 
-    int IndiceSave;
+    int indiceSave;
     String etape;
+    int points;
 }
