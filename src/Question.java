@@ -6,4 +6,5 @@ class Question{
     String reponse4;
     int idxReponse;
     int idxQuestion;
+//    CSVFILE type;
 }

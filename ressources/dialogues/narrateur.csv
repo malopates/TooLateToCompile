@@ -8,3 +8,14 @@ Aujourd'hui c'est votre soutenance pour votre projet Ludo-pédagogique, vous n'a
 Dès que votre réveil sonnera... Comme il le fait déjà depuis une heur- !!! ;As soon as your alarm clock rings... As it has been doing for an hour- !!! ;一旦您的闹钟响起... 就像它已经响了一个小时一样- !!!
 Vous vous réveillez en sursaut, vous n'avez ni projet, ni ponctualité, ni pantalon !! ;You wake up with a start, you have no project, no punctuality, no pants !! ;您惊醒了，您没有项目，没有准时，也没有裤子！！
 Vous vous hâtez vers le métro, vous n'avez pas d'abonnement non plus mais vous improviserez !! ; You hurry to the subway, you don't have a subscription either but you will improvise ;您赶往地铁，您也没有订阅，但您会临时凑合
+===========
+MENU
+===========
+Les introductions sont désormais désactivées; Introductions are now disabled; 介绍现在已禁用
+Les introductions sont désormais activées; Introductions are now enabled; 介绍现在已启用
+Sauvegarde effectuée avec succès; Save successful; 保存成功
+Sauvegarde chargée avec succès; Save loaded successfully; 保存成功加载
+Sauvegarde supprimée avec succès; Save deleted successfully; 保存成功删除
+Taper "S" pour SAUVEGARDER , "D" pour SUPPRIMER, "C" pour charger, "Q" pour QUITTER; Type "S" to SAVE, "D" to DELETE, "C" to load, "Q" to QUIT; 输入"S"保存，"D"删除，"C"加载，"Q"退出
+Choisir le numéro de la sauvegarde à supprimer ; Choose the number of the save to delete ; 选择要删除的保存编号 
+Choisir le numéro de la sauvegarde  à charger ; Choose the number of the save to load ; 选择要加载的保存编号
