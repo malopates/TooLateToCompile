@@ -294,25 +294,21 @@ int langue = 0; //0 français, 1 anglais, 2 chinois
 		println();
 
 		
-        String[] sauvegarde = {player.indiceSave + "", player.nom, player.etape, player.score + ""}; //"attributs" du joueur
+        String[] sauvegarde = {player.indiceSave + "", player.nom, player.etape, player.score + "", player.progression}; //"attributs" du joueur
 
-		int nbSave = rowCount(save); 
 
 		for (int i = 0; i < rowCount(save); i++) {  //parcours toutes les lignes du CSV et remplis le tableau avec
-			for (int j = 0; j < 5; j++) {
+			for (int j = 0; j < columnCount(save); j++) {
 				newSave[i][j] = getCell(save, i, j); 
 			}
 		}
 
-
-       
-        print("NOMBRE SAVE " + rowCount(save) + "...");
-		for (int i = 0; i < rowCount(save); i++) { //ajoute la nouvelle sauvegarde à la fin du tableau
-            print(sauvegarde[i]);
-			newSave[nbSave][i] = sauvegarde[i];
+		for (int i = 0; i < columnCount(save); i++) { //ajoute la nouvelle sauvegarde à la fin du tableau
+            print(sauvegarde[i] + " - ");
+			newSave[rowCount(save)][i] = sauvegarde[i];
 		}
 
-         saveCSV(newSave, "ressources/save.csv"); //sauvegarde le tableau dans le CSV
+        saveCSV(newSave, "ressources/save.csv"); //sauvegarde le tableau dans le CSV
          print("NOMBRE SAVE " + rowCount(save) + "...");
     	}
 
@@ -335,7 +331,7 @@ int langue = 0; //0 français, 1 anglais, 2 chinois
 	}
 
 	void menuSave(){
-        int nbSave = rowCount(save);
+
         newSave = new String[rowCount(save)+1][columnCount(save)]; //crée un tableau de la taille du CSV et laisse un espace
         loadCSV("ressources/save.csv");
 		String saisie;
@@ -354,7 +350,6 @@ int langue = 0; //0 français, 1 anglais, 2 chinois
 	//print le menu
 		for(int i = 0; i<length(newSave,1)-1;i++){
 			println(ANSI_RED+"╓"+barre(langue)+"╖");
-            print(i + "LE CHIFFRE \n" + length(newSave,1) + " LE LENGTH \n");
 			anim(" " + ANSI_WHITE + espace(newSave[i][0],12,langue) + ANSI_RED + " \n",10);
 			anim(" " + ANSI_WHITE + espace(newSave[i][1],12,langue) + ANSI_RED + " \n",10);
 			anim(" " + ANSI_WHITE + espace(newSave[i][3],12,langue) + ANSI_RED + " \n",10);
