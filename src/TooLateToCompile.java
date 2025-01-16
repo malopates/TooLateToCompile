@@ -472,7 +472,7 @@ String titreStr = "";
     }
 
     char remplirCasesJauge(Ennemi ennemi, int caseJauge){
-        if(caseJauge>ennemi.tauxJauge){
+        if((int)((caseJauge/100)*ennemi.longueurSprite)>ennemi.tauxJauge){
             return '█';
         }else{
             return ' ';
@@ -545,7 +545,7 @@ String titreStr = "";
             if (reponse >= 1 && reponse <= 4) {
                 if (reponse == deChaineAEntier(getCell(ennemi.questions, currentQuestion, (langue * 6) + 5))) {
                     println(getCell(NARRATEUR, 24, langue)); // bonne réponse
-                    ennemi.tauxJauge = ennemi.tauxJauge+4;
+                    ennemi.tauxJauge = ennemi.tauxJauge+1;
                     player.score += 10;
                 } else {
                     println(getCell(NARRATEUR, 25, langue)); // mauvaise réponse
@@ -556,7 +556,7 @@ String titreStr = "";
                 println(getCell(NARRATEUR, 26, langue)); // format invalide
             }
 
-            if (ennemi.tauxJauge >= 40) {
+            if (ennemi.tauxJauge >= 10) {
                 println(getCell(NARRATEUR, 27, langue)); // victoire
                 combatEnCours = false;
                 
