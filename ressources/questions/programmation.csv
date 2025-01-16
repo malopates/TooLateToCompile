@@ -23,3 +23,5 @@ Quel est le résultat de round(5.3) en Python ?; 5; 6; 5.0; 4; 1; What is the re
 En Python, quel est le résultat de pow(4, 2) ?; 16; 4; 8; 2; 1; In Python, what is the result of pow(4, 2)?; 16; 4; 8; 2; 1; Python 中 pow(4, 2) 的结果是什么？ ; 16; 4; 8; 2; 1;
 Que fait la fonction print() en Python ?; Crée une variable; Affiche du texte à l'écran; Calcule une opération; Convertit une chaîne de caractères en entier; 2; What does the print() function do in Python?; Creates a variable; Displays text on the screen; Calculates an operation; Converts a string to an integer; 2; Python 中的 print() 函数是用来做什么的？ ; 创建一个变量; 在屏幕上显示文本; 计算一个操作; 将字符串转换为整数; 2;
 Que signifie l'opérateur == en Python ?; Comparaison d'égalité; Addition; Soustraction; Multiplication; 1; What does the == operator mean in Python?; Equality comparison; Addition; Subtraction; Multiplication; 1; Python 中的 == 运算符是什么意思？ ; 相等比较; 加法; 减法; 乘法; 1;
+En scratch, quelle est la couleur du bloc "dire" ?; Jaune; Vert; Bleu; Violet; 4; In scratch, what is the color of the "say" block?; Yellow; Green; Blue; Purple; 4; 在 scratch 中，“说” 块的颜色是什么？ ; 黄色; 绿色; 蓝色; 紫色; 4;
+
