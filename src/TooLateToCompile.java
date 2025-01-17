@@ -73,9 +73,10 @@ String titreStr = "";
 	    
             if(equals(player.progression,"CS")){
                  if(!skipIntro){
+                    introEnnemi(sec);
                     introSec();//la sienne diffère donc fonction spéciale
                 }
-                interfaceCombat(sec);
+                gererCombat(sec);
                 player.progression = "CSM";
             }
 
@@ -280,7 +281,7 @@ String titreStr = "";
 
                     case 4: //Changer skip intro
                         clearScreen();
-			skipIntro = !skipIntro;
+			            skipIntro = !skipIntro;
                         if(skipIntro) println(getCell(NARRATEUR,13,langue));
                         else println(getCell(NARRATEUR,14,langue));
                         println(titreStr);
@@ -462,7 +463,7 @@ String titreStr = "";
         controleur = newEnnemi("Contrôleur", 0, 0,"Amende", CONTROLEUR, QMATHS, SCONTROLEUR,25,getCell(DESCRIPTIONS,0,langue));
         corle = newEnnemi("Corle", 0, 0,"Hémmoragie", CORLE, QWEB,SCARLE,22,getCell(DESCRIPTIONS,1,langue));
         sec = newEnnemi("Sec", 0, 0,"Quota", SEC, QPROGRAMMATION,SSEC,22,getCell(DESCRIPTIONS,2,langue));
-        marshallNormand = newEnnemi("Marshall-Normand", 0, 0,"Note", MARSHALLNORMAND, QPROGRAMMATION,SCARLE,22,getCell(DESCRIPTIONS,3,langue));
+        marshallNormand = newEnnemi("Marshall-Normand", 0, 0,"Note", MARSHALLNORMAND, QPROGRAMMATION,SCARLE,15,getCell(DESCRIPTIONS,3,langue));
         player = newJoueuse(1,"pardéfo",0,"",1);
     }
 
@@ -635,20 +636,97 @@ void introEnnemi(Ennemi ennemi){
              for(int j = 0; j<2;j++){
                 println();
                  anim(getCell(NARRATEUR,31+j,langue),20);
+                 delay(2000);
                  }
-
+            bonhommeQuiCourt();
+            println();
+            clearScreen();
             anim(gestionDialogue(ennemi,1),20);
-            for(int i = 1; i<4;i++){
+            for(int i = 1; i<3;i++){
+                println();
                 anim(gestionDialogue(ennemi,0),20);
+                delay(2000);
             }
-            // break;
+            break;
 
         case "Sec" :
+            for(int j = 0; j<4;j++){
+                println();
+                 anim(getCell(NARRATEUR,35+j,langue),20);
+                 delay(1000);
+                 }
+            println();
+            anim(gestionDialogue(ennemi,1),20);
+
+            for(int i = 1; i<3;i++){
+                println();
+                anim(gestionDialogue(ennemi,0),20);
+                delay(2000);
+            }
+
             break;
 
         case "Marshall-Normand" :
+            for(int k = 0; k<2;k++){
+                println();
+                 anim(getCell(NARRATEUR,35+k,langue),20);
+                 delay(1000);
+                 }
+            println();
+            anim(gestionDialogue(ennemi,1),20);
+            delay(2000);
+            anim(gestionDialogue(ennemi,2),20);
+            delay(2000);
             break;
+
+
 
     }
 }
+
+
+void testNewQuestion() {
+        Question q = newQuestion("Est-ce que ce test serait trop dur à faire avec le CSV?", "Probablement", "C'est sûr", "Assurément", "La réponse D", 1, 0);
+        assertEquals("Est-ce que ce test serait trop dur à faire avec le CSV?", q.question);
+        assertEquals("Probablement", q.reponse1);
+        assertEquals("C'est sûr", q.reponse2);
+        assertEquals("Assurément", q.reponse3);
+        assertEquals("La réponse D", q.reponse4);
+        assertEquals(1, q.idxReponse);
+        assertEquals(0, q.idxQuestion);
+    }
+
+
+    void testNewJoueuse() {
+        Joueuse j = newJoueuse(1, "Malori", 0, "", 1);
+        assertEquals(1, j.indiceSave);
+        assertEquals("Malori", j.nom);
+        assertEquals(0, j.score);
+        assertEquals("", j.progression);
+        assertEquals(1, j.multiplicateur);
+    }
+
+
+    void testNewEnnemi() {
+        Ennemi e = newEnnemi("Malori", 0, 0, "Amende", CONTROLEUR, QMATHS, SCONTROLEUR, 25, "Description");
+        assertEquals("Malori", e.nom);
+        assertEquals(0, e.tauxJauge);
+        assertEquals(0, e.idxDialogue);
+        assertEquals("Amende", e.nomJauge);
+        assertEquals(CONTROLEUR, e.dialogue);
+        assertEquals(QMATHS, e.questions);
+        assertEquals(SCONTROLEUR, e.sprite);
+        assertEquals(25, e.longueurSprite);
+        assertEquals("Description", e.description);
+    }
+
+ 
+    void testDeChaineAEntier() { //Crédit : Toujours Jérôme SAUVE !!
+        assertEquals(123, deChaineAEntier("123"));
+        assertEquals(-123, deChaineAEntier("-123"));
+        assertEquals(0, deChaineAEntier("0"));
+    }
+
+
+
 }
