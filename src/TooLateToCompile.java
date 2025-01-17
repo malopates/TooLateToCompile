@@ -18,7 +18,7 @@ String titreStr = "";
     final CSVFile QWEB = loadCSV("ressources/questions/web.csv",';');
     final File TITRE = newFile("ressources/titre.txt");
     final File SCONTROLEUR = newFile("ressources/sprites/Contrôleur.txt");
-    final File SCARLE = newFile("ressources/sprites/Carle.txt");
+    final File SCARLE = newFile("ressources/sprites/Corle.txt");
     final File SSEC = newFile("ressources/sprites/Sec.txt");
     final CSVFile DESCRIPTIONS = loadCSV("ressources/textes/description.csv",';');
     CSVFile save = loadCSV("ressources/save.csv");
@@ -26,72 +26,67 @@ String titreStr = "";
     Ennemi controleur ;
     Ennemi corle ;
     Ennemi sec ;
-    Ennemi marshallNormand ;
-    String etape = "outro";  
+    Ennemi marshallNormand ;  
     boolean skipIntro = false;
 
 
-    void algorithm(){
-        //===================================== INTRODUCTION =====================================
-            //demander le nom de la joueuse
+    void algorithm(){ //Si plus tard j'ai besoin de relancer algorithm
+        lancementJeu();
+    }
+
+    void lancementJeu(){
+
+    //===================================== INTRODUCTION =====================================
+        //demander le nom de la joueuse
             clearScreen();
             for (int i = 0; i < 3; i++) {
                 anim(getCell(NARRATEUR,1,i),10);
                 println();
             }
 
-            initialisationTypes();
-            String nom = readString(); 
-            player.nom = nom;
-
-            etape = "menu";
-
-            if(equals(etape,"menu")){ //pour le menu, choix de langue, +1 quand changement langue, modulo 3
-                menu();
-            }
-            
-	    clearScreen();
-
-
-            if(equals(etape,"Debut")){
-		if(!skipIntro) introJoueuse();
+        initialisationTypes();
+        player.nom = readString(); 
+        if(equals(player.nom,"malori"))player.multiplicateur = 1000; //je m'adore
+        //pour le menu, choix de langue, +1 quand changement langue, modulo 3 pour ne pas out of bounds
+        if(equals(player.progression,"")) menu();
+        if(!skipIntro)  introJoueuse();
 		cursor(0,0);
-		etape = "Controleur";
-	    }
+        
+		player.progression = "C";
+        
+            
+	    
 
 
         //===================================== COMBATS =====================================
-            if(equals(etape,"Controleur")){
+            if(equals(player.progression,"C")){
                 if(!skipIntro) introEnnemi(controleur);
                 gererCombat(controleur);
+                player.progression = "CC";
             }
 
-            if(equals(etape,"Corle")){
+            if(equals(player.progression,"CC")){
+                if(!skipIntro) introEnnemi(corle);
                 gererCombat(corle);
-		        etape = "sec";
+		        player.progression = "CS";
             }
 	    
-            if(equals(etape,"Sec")){
+            if(equals(player.progression,"CS")){
                  if(!skipIntro){
-                    //introEnnemi(sec);
-                    introSec();
+                    introSec();//la sienne diffère donc fonction spéciale
                 }
                 interfaceCombat(sec);
+                player.progression = "CSM";
             }
 
-            if(equals(etape,"MarshallNormand")){
-                
+            if(equals(player.progression,"CSM")){
+                if(!skipIntro) introEnnemi(marshallNormand);
+                gererCombat(marshallNormand);
+                player.progression = "Fin";
             }
 
-            if(equals(etape,"Pause")){
-                
-            }
 
-            if(equals(etape,"Combat")){
-                
-            }
-
-            if(equals(etape,"Fin")){
+            if(equals(player.progression,"Fin")){
                lancerOutro(langue); 
                println(titreStr);
 
@@ -251,7 +246,7 @@ String titreStr = "";
         afficherCases(langue,MENU);
         
         String selection = "0";
-        while(equals(etape,"menu")){
+        while(equals(player.progression,"")){
          
             boolean validInput = false;
             while (!validInput) {
@@ -266,7 +261,7 @@ String titreStr = "";
                     
             switch(stringToInt(selection)){
                     case 1: //jouer
-                        etape = "Debut";
+                        player.progression = "D";
                         break;
 
                     case 2: //langue
@@ -293,7 +288,7 @@ String titreStr = "";
                         break;
 
                     case 5: //quit
-                        etape="Fin";
+                        player.progression="F";
                         break;
                         }
                     }
@@ -307,7 +302,7 @@ String titreStr = "";
 		println();
 
 		
-        String[] sauvegarde = {player.indiceSave + "", player.nom, player.etape, player.score + "", player.progression + player.progression, player.multiplicateur + ""}; //"attributs" du joueur
+        String[] sauvegarde = {player.indiceSave + "", player.nom, player.progression, player.score + "", player.progression + player.progression, player.multiplicateur + ""}; //"attributs" du joueur
 
 
 		for (int i = 0; i < rowCount(save); i++) {  //parcours toutes les lignes du CSV et remplis le tableau avec
@@ -328,7 +323,12 @@ String titreStr = "";
 
 
 	void supprimerSave(){
-		anim(getCell(NARRATEUR,17,langue),20);
+            int index = readInt();
+        	for (int j = 0; j < columnCount(save); j++) {
+				newSave[index][j] ="VIDE"; 
+			}
+            anim(getCell(NARRATEUR,17,langue),20);
+            delay(1000);
 	}
 
 
@@ -338,13 +338,14 @@ String titreStr = "";
 		//charge la sauvegarde choisie
 		player.indiceSave = selectionSave;
 		player.nom = getCell(save,selectionSave,0);
-		player.etape = getCell(save,selectionSave,2);
+		player.progression = getCell(save,selectionSave,2);
 		player.score = stringToInt(getCell(save,selectionSave,3));
 		player.progression = getCell(save,selectionSave,4);
 		player.multiplicateur = stringToInt(getCell(save,selectionSave,5));
 	}
 
 	void menuSave(){
+        clearScreen();
         println();
         anim(getCell(NARRATEUR,21,langue),20);
         print("   " + player.nom);
@@ -382,6 +383,7 @@ String titreStr = "";
 		switch(saisie){
 			case "s":
 				creerSave();
+                bonhommeQuiCourt();
 				menuSave();
 				break;
 			case "d":
@@ -432,13 +434,12 @@ String titreStr = "";
             return q;
         }
     
-    Joueuse newJoueuse(int IndiceSave,String nom,String etape, int score, String progression, int multiplicateur){
+    Joueuse newJoueuse(int IndiceSave,String nom, int score, String progression, int multiplicateur){
             Joueuse j = new Joueuse();
             j.indiceSave = rowCount(save);
 	        j.nom = nom;
-            j.etape = etape;
             j.score = 0;
-            j.progression = "C";
+            j.progression = "";
 	        j.multiplicateur = 1;
             return j;
         }
@@ -446,7 +447,7 @@ String titreStr = "";
     Ennemi newEnnemi(String nom,int tauxJauge,int idxDialogue,String nomJauge,CSVFile dialogue,CSVFile questions,File sprite,int longueurSprite,String description){
             Ennemi en = new Ennemi();
             en.nom = nom;
-            en.tauxJauge = tauxJauge;
+            en.tauxJauge = 0;
             en.idxDialogue = idxDialogue;
             en.nomJauge = nomJauge;
             en.dialogue = dialogue;
@@ -459,20 +460,20 @@ String titreStr = "";
     
     void initialisationTypes(){
         controleur = newEnnemi("Contrôleur", 0, 0,"Amende", CONTROLEUR, QMATHS, SCONTROLEUR,25,getCell(DESCRIPTIONS,0,langue));
-        corle = newEnnemi("M.Corle", 0, 0,"Hémmoragie", CORLE, QWEB,SCARLE,22,getCell(DESCRIPTIONS,1,langue));
+        corle = newEnnemi("Corle", 0, 0,"Hémmoragie", CORLE, QWEB,SCARLE,22,getCell(DESCRIPTIONS,1,langue));
         sec = newEnnemi("Sec", 0, 0,"Quota", SEC, QPROGRAMMATION,SSEC,22,getCell(DESCRIPTIONS,2,langue));
         marshallNormand = newEnnemi("Marshall-Normand", 0, 0,"Note", MARSHALLNORMAND, QPROGRAMMATION,SCARLE,22,getCell(DESCRIPTIONS,3,langue));
-        player = newJoueuse(1,"pardéfo","menu",0,"",1);
-
+        player = newJoueuse(1,"pardéfo",0,"",1);
     }
 
     int currentQuestion = 0;
-    void changeQuestion(Ennemi ennemi){
-       
-    }
 
+    //tauxJauge = nb de bonne réponses, 10 = victoire, barre vide
+    //longueurSprite = total barre
+    //casejauge = idx de la case selectionnée
     char remplirCasesJauge(Ennemi ennemi, int caseJauge){
-        if((int)((caseJauge/100)*ennemi.longueurSprite)>ennemi.tauxJauge){
+
+        if(caseJauge>ennemi.tauxJauge){
             return '█';
         }else{
             return ' ';
@@ -483,10 +484,13 @@ String titreStr = "";
         cadreHautBas(ennemi);
             //PANNEAU GAUCHE DU COMBAT
             ennemi.sprite = newFile("ressources/sprites/" + ennemi.nom + ".txt");
+
+        
         for(int i = 0;i<ennemi.longueurSprite;i++){
-            print("║|" + ANSI_RED + remplirCasesJauge(ennemi,i) + ANSI_WHITE + "|║");
+            if(!(10<i)){print("║|" + ANSI_RED + remplirCasesJauge(ennemi,i) + ANSI_WHITE + "|║");}
+            else{ print(" " + "   " + " ");}
             print("║|" + readLine(ennemi.sprite) + "|║");
-            if(i == 0){print("   " + ANSI_RED + player.nom + ANSI_WHITE + " ------------------- " + player.score + "pt  x " + player.multiplicateur);}
+            if(i == 0){print("   " + ANSI_RED + player.nom + ANSI_WHITE + " ------------------- " + player.score + "pt  x " + player.multiplicateur + ANSI_RED + " COMBO"+ ANSI_WHITE);}
             //PANNEAU DROIT DU COMBAT
             if(i == 4){print("   " + ANSI_RED + ennemi.nom + ANSI_WHITE );} 
             if(i == 5){print("   " + substring(ennemi.description,0,length(ennemi.description)/2));} //parce que l'écran de ma machine est tout petit 
@@ -497,13 +501,16 @@ String titreStr = "";
             if(i == 11){print("   " + "1 - " + getCell(ennemi.questions,currentQuestion,(langue*6)+1) + "                          " + "2  -" + getCell(ennemi.questions,currentQuestion,(langue*6)+2)  );}
             if(i == 13){print( "   " + "3 - " + getCell(ennemi.questions,currentQuestion,(langue*6)+3) + "                          " + "4  -" + getCell(ennemi.questions,currentQuestion,(langue*6)+4));}
             if(i != ennemi.longueurSprite-1){println();} //pour éviter de faire une ligne de vide en bas
-        }
+            //if(i>13){for(int j=0;i<ennemi.longueurSprite*3;i++)print("░");}
+            }  
+
         cadreHautBas(ennemi);
     }
+    
 
     void cadreHautBas(Ennemi ennemi){
         println("");
-        print(ANSI_RED + toUpperCase(ennemi.nomJauge) + ANSI_WHITE);
+        print("");
 
             for(int j = 0; j<(ennemi.longueurSprite*3)-1;j++){
                print("="); 
@@ -529,12 +536,12 @@ String titreStr = "";
             boolean validInput = false; //énième controle de saisie
 
             while (!validInput) {
-                choix = readString();
-                if (length(choix) == 1 && charAt(choix,0) >= '1' && charAt(choix,0) <= '4') {
-                    validInput = true;
-                } else {
-                    println(getCell(NARRATEUR,22,langue));
-                }
+            choix = readString();
+            if (length(choix) == 1 && charAt(choix,0) >= '1' && charAt(choix,0) <= '4') {
+                validInput = true;
+            } else {
+                println(getCell(NARRATEUR,22,langue));
+            }
             }
 
             int reponse = deChaineAEntier(choix);
@@ -543,30 +550,32 @@ String titreStr = "";
             
             //vérification bonne réponse
             if (reponse >= 1 && reponse <= 4) {
-                if (reponse == deChaineAEntier(getCell(ennemi.questions, currentQuestion, (langue * 6) + 5))) {
-                    println(getCell(NARRATEUR, 24, langue)); // bonne réponse
-                    ennemi.tauxJauge = ennemi.tauxJauge+1;
-                    player.score += 10;
-                } else {
-                    println(getCell(NARRATEUR, 25, langue)); // mauvaise réponse
-                    player.score -= 5;
-                }
-                currentQuestion = (currentQuestion + 1) % rowCount(ennemi.questions);
+            if (reponse == deChaineAEntier(getCell(ennemi.questions, currentQuestion, (langue * 6) + 5))) {
+                println(getCell(NARRATEUR, 24, langue)); // bonne réponse
+                player.multiplicateur++;
+                ennemi.tauxJauge += 1 * player.multiplicateur;
+                player.score += 10 * player.multiplicateur;
             } else {
-                println(getCell(NARRATEUR, 26, langue)); // format invalide
+                println(getCell(NARRATEUR, 25, langue)); // mauvaise réponse
+                player.score -= 5;
+                player.multiplicateur = 1;
+            }
+            currentQuestion = (currentQuestion + 1) % rowCount(ennemi.questions);
+            } else {
+            println(getCell(NARRATEUR, 26, langue)); // format invalide
             }
 
             if (ennemi.tauxJauge >= 10) {
-                println(getCell(NARRATEUR, 27, langue)); // victoire
-                combatEnCours = false;
-                
+            println(getCell(NARRATEUR, 27, langue)); // victoire
+            combatEnCours = false;
+            
             }
         }
-    }
+        }
 
 
 
-    int deChaineAEntier(String chaine){ //crédit : jérôme SAUVE
+        int deChaineAEntier(String chaine){ //crédit : jérôme SAUVE
             int puissance =1;
             int entier=0;
             for(int i=0; i<length(chaine);i=i+1){
@@ -595,6 +604,7 @@ String gestionDialogue(Ennemi ennemi, int idxDialogue){
 }
 
     void introJoueuse(){
+        clearScreen();
         cursor(0,0);  
         for(int i = 0; i<2;i++){
             anim(getCell(NARRATEUR,6+i,langue),20);
@@ -614,28 +624,31 @@ void introEnnemi(Ennemi ennemi){
     clearScreen();
     switch(ennemi.nom){
         case "Contrôleur" : 
-
            for(int i = 1; i<5;i++){
                 anim(gestionDialogue(ennemi,0),20);  
                 println();
                 delay(2000);
             }    
-        
-        case "M.Corle" : 
+        break;
+        case "Corle" : 
 
-            
+             for(int j = 0; j<2;j++){
+                println();
+                 anim(getCell(NARRATEUR,31+j,langue),20);
+                 }
+
+            anim(gestionDialogue(ennemi,1),20);
+            for(int i = 1; i<4;i++){
+                anim(gestionDialogue(ennemi,0),20);
+            }
+            // break;
 
         case "Sec" :
+            break;
 
         case "Marshall-Normand" :
+            break;
 
     }
-   
- 
 }
-
-
-
-
-
 }

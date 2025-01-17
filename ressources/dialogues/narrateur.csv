@@ -15,7 +15,7 @@ Les introductions sont désormais désactivées; Introductions are now disabled;
 Les introductions sont désormais activées; Introductions are now enabled; 介绍现在已启用
 Sauvegarde effectuée avec succès, elle ne sera pas affichée dans le menu de sauvegarde avant prochain redemarrage; Save successful, it will not be displayed in the save menu until the next restart; 保存成功，直到下次重新启动之前，它将不会显示在保存菜单中
 Sauvegarde chargée avec succès; Save loaded successfully; 保存成功加载
-Sauvegarde supprimée avec succès; Save deleted successfully; 保存成功删除
+Sauvegarde supprimée avec succès, elle ne sera pas affichée dans le menu de sauvegarde avant prochain redemarrage; Save deleted successfully; 保存成功删除
 Taper "S" pour SAUVEGARDER , "D" pour SUPPRIMER, "C" pour charger, "Q" pour QUITTER; Type "S" to SAVE, "D" to DELETE, "C" to load, "Q" to QUIT; 输入"S"保存，"D"删除，"C"加载，"Q"退出
 Choisir le numéro de la sauvegarde à supprimer ; Choose the number of the save to delete ; 选择要删除的保存编号 
 Choisir le numéro de la sauvegarde  à charger ; Choose the number of the save to load ; 选择要加载的保存编号
@@ -26,3 +26,9 @@ C'est une bonne réponse :> !!! ; This is a good answer; 这是一个好答案
 C'est une mauvaise réponse :< !!! ; This is a bad answer; 这是一个坏答案
 C'est pas un format valide de réponse :| ??? ; This is not a valid answer format; 这不是一个有效的答案格式
 Bravo, c'est une victoire ! ; Congratulations, it's a win! ; 恭喜，这是一场胜利！
+=======
+SCENARIO
+========
+C'était un contrôleur vachement persistant, mais qu'importe ! Vous avez réussi à vous faufiler sans ticket, ni abonnement, ni pantalon...; He was a very persistent controller, but who cares! You managed to sneak in without a ticket, subscription, or pants...; 他是一个非常坚持的控制器，但谁在乎！ 您成功地在没有车票、订阅或裤子的情况下溜进去了...
+Vous arrivez devant l'IUT, vous sentez l'odeur de la victoire ou plutôt celle des étudiant.es, vous traversez la route et-; You arrive in front of the IUT, you smell the smell of victory or rather that of the students, you cross the road and-; 您来到IUT前面，您闻到了胜利的气味，或者更确切地说是学生的气味，您穿过马路然后-
+L'imposant 4x4 de M.Corle vous renverse, heureusement vous êtes coriace.; Mr. Corle's imposing 4x4 runs you over, fortunately you are tough.; Corle先生的庞大4x4车撞倒了您，幸运的是您很坚强。  
